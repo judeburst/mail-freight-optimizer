@@ -10,7 +10,9 @@ def plan_drop(ddus):
     if scf_group:
         pallets.extend(palletize_scf_group(scf_group))
 
+    carriers = recommend_carriers()
+
     for pallet in pallets:
-        pallet["recommended_carriers"] = recommend_carriers(pallet["type"])
+        pallet["available_carriers"] = carriers
 
     return pallets
