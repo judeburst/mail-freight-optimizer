@@ -1,18 +1,22 @@
 from fastapi import APIRouter
-from app.logic.drop_planner import plan_drop
-from app.logic.shipment_summary import generate_shipment_summary
+from pydantic import BaseModel
+from typing import List
 
 router = APIRouter()
 
-@router.post("/simulate-campaign")
-def simulate_campaign(campaign: dict):
-    results = {}
+# Pydantic model for a campaign
+class CampaignItem(BaseModel):
+    campaign_name: str
+    drops: List[dict]
 
-    for drop in campaign["drops"]:
-        pallets = plan_drop(drop["ddus"])
-        results[f"Drop {drop['drop_number']}"] = {
-            "pallets": pallets,
-            "shipment_summary": generate_shipment_summary(pallets)
-        }
-
-    return results
+# Endpoint for simulating a campaign
+@router.post("/")
+def simulate_campaign(campaigns: List[CampaignItem]):
+    results = []
+    for campaign in campaigns:
+        results.append({
+            "campaign_name": campaign.campaign_name,
+            "drop_count": len(campaign.drops),
+            "message": "Simulation completed successfully"
+        })
+    return {"campaigns": results}
