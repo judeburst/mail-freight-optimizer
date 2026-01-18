@@ -1,8 +1,28 @@
 from fastapi import FastAPI
-from app.api.simulate import router as simulate_router
-from app.api.campaign_simulate import router as campaign_router
+from fastapi.middleware.cors import CORSMiddleware
+from app.api import simulate, campaign_simulate
 
-app = FastAPI(title="Mail & Freight Optimizer")
+# Create FastAPI app
+app = FastAPI(
+    title="Mail & Freight Optimizer",
+    description="Optimizes USPS drop planning and freight palletization",
+    version="1.0.0"
+)
 
-app.include_router(simulate_router)
-app.include_router(campaign_router)
+# Add CORS middleware (optional, useful if connecting to a frontend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or restrict to your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Include routers from api folder
+app.include_router(simulate.router, prefix="/simulate-drop", tags=["Simulate Drop"])
+app.include_router(campaign_simulate.router, prefix="/simulate-campaign", tags=["Simulate Campaign"])
+
+# Root endpoint
+@app.get("/")
+def root():
+    return {"message": "Mail & Freight Optimizer API is running!"}
