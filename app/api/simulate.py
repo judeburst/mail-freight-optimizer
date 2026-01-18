@@ -1,14 +1,18 @@
 from fastapi import APIRouter
-from app.logic.drop_planner import plan_drop
-from app.logic.shipment_summary import generate_shipment_summary
+from pydantic import BaseModel
+from typing import List
 
 router = APIRouter()
 
-@router.post("/simulate-drop")
-def simulate_drop(ddus: list):
-    pallets = plan_drop(ddus)
-    summary = generate_shipment_summary(pallets)
-    return {
-        "pallets": pallets,
-        "shipment_summary": summary
-    }
+# Pydantic model for a single drop
+class DropItem(BaseModel):
+    ddu_code: str
+    scf_code: str
+    households: int
+
+# Endpoint for simulating a drop
+@router.post("/")
+def simulate_drop(drops: List[DropItem]):
+    result = []
+    for drop in drops:
+        # Minimal placeholder logic
