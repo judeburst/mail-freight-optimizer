@@ -5,5 +5,5 @@ class Campaign(Base):
     __tablename__ = "campaigns"
 
     id = Column(Integer, primary_key=True)
-    dealer_name = Column(String)
-    sale_length_days = Column(Integer)
+    dealer_name = Column(String, nullable=False)
+    sale_length_days = Column(Integer, nullable=False)
