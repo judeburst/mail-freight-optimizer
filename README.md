@@ -1,19 +1,15 @@
 # Mail & Freight Optimizer
 
-Internal AI-assisted system for USPS multi-drop campaigns and palletized freight planning.
+Internal AI-assisted system for USPS multi-drop campaigns.
 
 ## Features
-- Multi-drop campaigns per sale
-- DDU first, SCF grouping for small DDUs (<3000 households)
-- Palletization with weight/dimensions
-- Flexible carrier recommendations (any carrier for any drop)
+- DDU-first USPS logic
+- SCF grouping for DDUs under 3000 households
+- Per-drop palletization
+- Flexible carrier selection
+- Campaign-level simulation
 - Copy-paste shipment summaries
-- AI-assisted explanation (optional GPT layer)
+- AI explanations (optional)
 
-## Installation
-```bash
-git clone <repo>
-cd mail-freight-optimizer
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+## Run
+uvicorn app.main:app --reload
