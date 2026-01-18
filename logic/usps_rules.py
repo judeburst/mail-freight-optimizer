@@ -2,10 +2,11 @@ DDU_MIN_HOUSEHOLDS = 3000
 
 def assign_destination(ddus):
     """
-    Applies your locked rule:
-    - DDU always first priority
-    - If DDU < 3000 households → SCF group
+    Locked rules:
+    - DDU is always first priority
+    - DDUs under 3000 households are grouped to SCF
     """
+
     ddu_shipments = []
     scf_group = []
 
